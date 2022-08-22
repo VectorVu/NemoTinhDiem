@@ -57,6 +57,14 @@ let tinh = document.getElementById("btnTinh");
 let result = document.getElementById("result");
 let kind = document.getElementById("inputState");
 
+function chuyenDoi(num) {
+    if (num < 1) {
+        return num;
+    } else {
+        return num / 100;
+    }
+}
+
 tinh.addEventListener("click", () => {
     if (kind.value === "Tính điểm qua môn") {
         if (qt.value !== "" && gk.value !== "" && hsqt.value !== "" && hsgk.value !== "") {
@@ -65,11 +73,11 @@ tinh.addEventListener("click", () => {
             let hsqtNum = parseFloat(hsqt.value);
             let hsgkNum = parseFloat(hsgk.value);
             if (
-                (hsqtNum + hsgkNum <= 1) &&
+                (chuyenDoi(hsqtNum) + chuyenDoi(hsgkNum) <= 1) &&
                 (qtNum <= 10 && qtNum > 0 && gkNum <= 10 && gkNum > 0) &&
                 (hsgkNum > 0.0 && hsqtNum > 0.0)
             ) {
-                let dqm = (4 - ((qtNum * hsqtNum) + (gkNum * hsgkNum))) / (1 - (hsgkNum + hsqtNum));
+                let dqm = (4 - ((qtNum * chuyenDoi(hsqtNum)) + (gkNum * chuyenDoi(hsgkNum)))) / (1 - (chuyenDoi(hsgkNum) + chuyenDoi(hsqtNum)));
                 if (dqm >= 0) {
                     result.innerText = "Điểm cuối kỳ cần để qua môn: " + dqm;
                 }
@@ -94,12 +102,12 @@ tinh.addEventListener("click", () => {
             let hsgkNum = parseFloat(hsgk.value);
             let hsckNum = parseFloat(hsck.value);
             if (
-                (hsqtNum + hsgkNum + hsckNum === 1.0) &&
+                (chuyenDoi(hsqtNum) + chuyenDoi(hsgkNum) + chuyenDoi(hsckNum) === 1.0) &&
                 (qtNum > 0 && gkNum > 0 && ckNum > 0) &&
                 (qtNum <= 10 && gkNum <= 10 && ckNum <= 10) &&
                 (hsgkNum > 0.0 && hsqtNum > 0.0 && hsckNum > 0.0)
             ) {
-                let dtk = qtNum * hsqtNum + gkNum * hsgkNum + ckNum * hsckNum;
+                let dtk = qtNum * chuyenDoi(hsqtNum) + gkNum * chuyenDoi(hsgkNum) + ckNum * chuyenDoi(hsckNum);
                 result.innerText = "Điểm Tổng kết: " + dtk;
             }
             else {
